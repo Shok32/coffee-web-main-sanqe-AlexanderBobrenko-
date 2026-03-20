@@ -1,259 +1,160 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coffee</title>
-    <link rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Haptic Hit</title>
     <style>
-        /* Стили для модального окна */
-        .modal {
-            display: none; 
-            position: fixed; 
-            z-index: 1; 
-            left: 0;
-            top: 0;
-            width: 100%; 
-            height: 100%; 
-            background-color: rgba(0, 0, 0, 0.6); 
-            justify-content: center; 
-            align-items: center; 
+        :root {
+            --bg: #f2f2f7;
+            --card: #ffffff;
+            --accent: #007aff;
         }
-/* Санечка снимаешь? *//* Санечка снимаешь? *//* Санечка снимаешь? *//* Санечка снимаешь? *//* Санечка снимаешь? */
-        .modal-content {
-            background-color: #f5f5dc; 
-            border-radius: 15px; /
-            padding: 20px;
-            width: 90%; 
-            max-width: 400px; 
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-            position: relative; 
-        }
-
-        .close {
-            color: #aaa;
-            position: absolute; 
-            top: 10px;
-            right: 15px;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-        }
-
-        /* Стили для формы */
-        form {
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
             display: flex;
             flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            user-select: none;
         }
-
-        label {
-            margin: 10px 0 5px;
-            font-size: 16px; 
+        .card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
         }
-
-        input {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px; 
-        }
-
-        button[type="submit"] {
-            background-color: #c2b280; 
+        h1 { font-size: 24px; margin-bottom: 20px; text-align: center; }
+        .stat { font-size: 14px; color: #8e8e93; margin: 5px 0; }
+        .impact-value { font-size: 32px; font-weight: bold; color: var(--accent); text-align: center; margin: 10px 0; }
+        label { display: block; margin-top: 15px; font-weight: 500; }
+        input[type="range"] { width: 100%; margin: 10px 0; }
+        button {
+            background: var(--accent);
             color: white;
             border: none;
-            padding: 10px;
-            border-radius: 5px; 
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
             cursor: pointer;
-            font-size: 16px; 
-            margin-top: 10px;
+            width: 100%;
+            transition: transform 0.1s;
         }
-
-        button[type="submit"]:hover {
-            background-color: #b19a6a; 
-        }
-
-        @media (max-width: 600px) {
-            .modal-content {
-                width: 80%; 
-            }
-        }
+        button:active { transform: scale(0.98); opacity: 0.9; }
+        .file-input { margin-top: 10px; font-size: 12px; }
     </style>
 </head>
-
 <body>
-    <header>
-        <div class="container">
-            <div class="bg-inner">
-                <div class="header-inner">
-                    <p>Filtro</p>
-                    <nav>
-                        <ul class="nav-links">
-                            <li><a class="nav-links__item nav-links__item--first" href="./index.html">Home</a></li>
-                            <li><a class="nav-links__item nav-links__item--second" href="#explore">Explore us</a></li>
-                            <li><a class="nav-links__item nav-links__item--third" href="#brands">Brands</a></li>
-                            <li><a class="nav-links__item nav-links__item--fourth" href="#contact">Contact us</a></li>
-                        </ul>
-                    </nav>
-                    <div class="header__buttons">
-                        <button class="header__button header__button--left">Sign up/Login</button>
-                        <button class="header__button">
-                            <img src="assets/image/icons/apple logo.png" alt="apple icon"> Get the app
-                        </button>
-                    </div>
-                </div>
-                <div class="main-wrapper">
-                    <h1>Power up with coffee</h1>
-                    <h3>Start your exciting day with a cup of Brew Coffee</h3>
-                    <button class="section-main__button">Explore Us</button>
-                </div>
-            </div>
-        </div>
 
-        <div id="orderModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>Order Your Drink</h2>
-                <p>Please fill in your details below:</p>
-                <form>
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" required>
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-                    <button type="submit">Submit Order</button>
-                </form>
-            </div>
-        </div>
+    <div class="card">
+        <h1>Haptic Sound App</h1>
+        
+        <div class="stat">Текущая сила:</div>
+        <div id="accelDisplay" class="impact-value">0.00</div>
+        
+        <label>Чувствительность (порог g): <span id="threshVal">3.0</span></label>
+        <input type="range" id="threshold" min="1.5" max="10" step="0.1" value="3.0">
+        
+        <label>Громкость:</label>
+        <input type="range" id="volume" min="0" max="1" step="0.1" value="0.8">
 
-    </header>
-    <main>
-        <section class="section-products">
-            <div class="container">
-                <h2 class="section-products__title" id="explore">Explore the Coffee World</h2>
-                <div class="cards-inner">
-                    <div class="cards-inner__item cards-inner__item--first">
-                        <img src="assets/image/cappac.png" alt="cappacino image">
-                        <h3>Cappacino</h3>
-                        <p class="card__text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa, fermentum id id vitae, integer fermentum tellus. In vitae id nisl quis ornare diam commodo in vel dolor.</p>
-                        <div class="price-button-wrapper">
-                            <h3 class="card__price">$8.60</h3>
-                            <button>Order now</button>
-                        </div>
-                    </div>
-                    <div class="cards-inner__item">
-                        <img src="assets/image/mocha.png" alt="mocha image">
-                        <h3>Mocha</h3>
-                        <p class="card__text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa, fermentum id id vitae, integer fermentum tellus. In vitae id nisl quis ornare diam commodo in vel dolor.</p>
-                        <div class="price-button-wrapper">
-                            <h3 class="card__price">$9.20</h3>
-                            <button>Order now</button>
-                        </div>
-                    </div>
-                    <div class="cards-inner__item">
-                        <img src="assets/image/latte.png" alt="latte image">
-                        <h3>Latte</h3>
-                        <p class="card__text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa, fermentum id id vitae, integer fermentum tellus. In vitae id nisl quis ornare diam commodo in vel dolor.</p>
-                        <div class="price-button-wrapper">
-                            <h3 class="card__price">$11.40</h3>
-                            <button>Order now</button>
-                        </div>
-                    </div>
-                    <div class="cards-inner__item">
-                        <img src="assets/image/coldjava.png" alt="cold java image">
-                        <h3>Cold Java</h3>
-                        <p class="card__text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa, fermentum id id vitae, integer fermentum tellus. In vitae id nisl quis ornare diam commodo in vel dolor.</p>
-                        <div class="price-button-wrapper">
-                            <h3 class="card__price">$6.40</h3>
-                            <button>Order now</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="section-brands">
-            <div class="container">
-                <h2 class="section-brands__title" id="brands">Brands We Work With</h2>
-                <div class="image-wrapper">
-                    <img class="section-brands__img--1" src="assets/image/Stackbuks logo.png" alt="starbucs logo">
-                    <img class="section-brands__img--2" src="assets/image/Nescafe-Logo.png" alt="nescafe logo">
-                    <img class="section-brands__img--3" src="assets/image/Tim hortins.png" alt="tim hortins logo">
-                    <img class="section-brands__img--4" src="assets/image/Dunkin Donuts.png" alt="Dunkin Donuts logo">
-                </div>
-            </div>
-        </section>
-    </main>
-    <footer>
-        <div class="container">
-            <div class="footer-bg">
-                <h2 class="footer__title" id="contact">Get in Touch with Us</h2>
-                <div class="footer-wrapper">
-                    <div class="column__item">
-                        <h4>Merchandise</h4>
-                        <p>T-shirts</p>
-                        <p>Caps</p>
-                        <p>Masks</p>
-                    </div>
-                    <div class="column__item second-column">
-                        <h4>Franchise</h4>
-                        <p>Coffee Outlet</p>
-                        <p>Coffee Vending Machine</p>
-                        <p>Contact Us</p>
-                    </div>
-                    <div class="column__item third-column">
-                        <h4>About Us</h4>
-                        <p>Promotions</p>
-                        <p>Customer Care</p>
-                        <p>Legal Information</p>
-                        <p>Achievements</p>
-                        <p>Careers</p>
-                    </div>
-                    <div class="follow-inner">
-                        <h4>Follow Us</h4>
-                        <a href="https://t.me/sanqeq" target="_blank">
-                            <img class="footer__icon" src="https://img.shields.io/badge/telegram-26A5E4?style=for-the-badge&logo=Telegram&logoColor=ffffff" alt="Telegram logo">
-                        </a>
-                        <a href="https://vk.com/sanqee" target="_blank">
-                            <img class="footer__icon" src="https://img.shields.io/badge/ВКонтакте-0077FF?style=for-the-badge&logo=VK&logoColor=ffffff" alt="VK logo">
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+        <label>Загрузить свой звук (.mp3):</label>
+        <input type="file" id="audioUpload" accept="audio/*" class="file-input">
+    </div>
+
+    <button id="startBtn">Активировать датчики</button>
+
+    <audio id="hitSound" src="https://www.soundjay.com/buttons/sounds/button-10.mp3"></audio>
 
     <script>
-        var modal = document.getElementById("orderModal");
+        const startBtn = document.getElementById('startBtn');
+        const accelDisplay = document.getElementById('accelDisplay');
+        const thresholdInput = document.getElementById('threshold');
+        const threshVal = document.getElementById('threshVal');
+        const volumeInput = document.getElementById('volume');
+        const audio = document.getElementById('hitSound');
+        const audioUpload = document.getElementById('audioUpload');
 
-        var buttons = document.querySelectorAll(".price-button-wrapper button");
+        let isMonitoring = false;
+        let lastHit = 0;
 
-        var span = document.getElementsByClassName("close")[0];
-
-        buttons.forEach(function(button) {
-            button.onclick = function() {
-                modal.style.display = "flex"; 
+        // Смена звука пользователем
+        audioUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const url = URL.createObjectURL(file);
+                audio.src = url;
             }
         });
 
-        // Когда пользователь нажимает на <span> (x), закрываем модальное окно
-        span.onclick = function() {
-            modal.style.display = "none";
+        // Обновление текста порога
+        thresholdInput.oninput = () => threshVal.innerText = thresholdInput.value;
+
+        startBtn.onclick = async () => {
+            if (typeof DeviceMotionEvent.requestPermission === 'function') {
+                // Запрос разрешения для iOS
+                try {
+                    const permission = await DeviceMotionEvent.requestPermission();
+                    if (permission === 'granted') {
+                        toggleMonitoring();
+                    } else {
+                        alert("Доступ к датчикам отклонен");
+                    }
+                } catch (e) {
+                    console.error(e);
+                }
+            } else {
+                // Для других браузеров
+                toggleMonitoring();
+            }
+            
+            // "Прогреваем" аудио-контекст (нужно для iOS)
+            audio.play();
+            audio.pause();
+        };
+
+        function toggleMonitoring() {
+            isMonitoring = !isMonitoring;
+            startBtn.innerText = isMonitoring ? "Стоп" : "Активировать датчики";
+            startBtn.style.background = isMonitoring ? "#ff3b30" : "#007aff";
+
+            if (isMonitoring) {
+                window.addEventListener('devicemotion', handleMotion);
+            } else {
+                window.removeEventListener('devicemotion', handleMotion);
+                accelDisplay.innerText = "0.00";
+            }
         }
 
-        // Когда пользователь нажимает в любом месте вне модального окна, закрываем его
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
+        function handleMotion(event) {
+            const acc = event.accelerationIncludingGravity;
+            if (!acc) return;
+
+            // Считаем общую силу (векторная сумма)
+            const total = Math.sqrt(acc.x**2 + acc.y**2 + acc.z**2);
+            accelDisplay.innerText = total.toFixed(2);
+
+            const threshold = parseFloat(thresholdInput.value);
+            const now = Date.now();
+
+            // Если удар превышает порог и прошло > 300мс с прошлого удара
+            if (total > threshold && (now - lastHit > 300)) {
+                audio.volume = volumeInput.value;
+                audio.currentTime = 0;
+                audio.play();
+                lastHit = now;
+                
+                // Визуальный эффект
+                document.body.style.backgroundColor = "#ffcc00";
+                setTimeout(() => document.body.style.backgroundColor = "#f2f2f7", 100);
             }
         }
     </script>
 </body>
-
 </html>
